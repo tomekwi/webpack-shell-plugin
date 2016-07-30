@@ -1,4 +1,5 @@
 const exec = require('child_process').exec;
+const execSync = require('child_process').execSync;
 const defaultOptions = {
   onBuildStart: [],
   onBuildEnd: [],
@@ -47,6 +48,17 @@ export default class WebpackShellPlugin {
       if (this.options.verbose) {
         console.log(`Report compilation: ${compilation}`);
       }
+
+      if (this.options.beforeBuildStart.length) {
+        console.log('Executing before-build scripts');
+        this.options.beforeBuildStart.forEach((script) => {
+          execSync(script, {stdio: 'inherit'});
+        });
+        if (this.options.dev) {
+          this.options.beforeBuildStart = [];
+        }
+      }
+
       if (this.options.onBuildStart.length) {
         console.log('Executing pre-build scripts');
         this.options.onBuildStart.forEach((script) => {
