@@ -19,7 +19,12 @@ module.exports = {
     ]
   },
   plugins: [
-    new WebpackShellPlugin({onBuildStart:['echo "Webpack Start"'], onBuildEnd:['echo "Webpack End"']}),
+    new WebpackShellPlugin({
+      beforeBuildStart: ['echo "Before Webpack Start"'],
+      onBuildStart: ['echo "Webpack Start"'],
+      onBuildEnd: ['echo "Webpack End"'],
+      onBuildExit: ['echo "After Webpack End"']
+    }),
     new webpack.HotModuleReplacementPlugin()
   ]
 };

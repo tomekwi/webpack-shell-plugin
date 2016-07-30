@@ -1,6 +1,7 @@
 const exec = require('child_process').exec;
 const execSync = require('child_process').execSync;
 const defaultOptions = {
+  beforeBuildStart: [],
   onBuildStart: [],
   onBuildEnd: [],
   onBuildExit: [],
@@ -16,6 +17,9 @@ function puts(error, stdout, stderr) {
 }
 
 function validateInput(options) {
+  if (typeof options.beforeBuildStart === 'string') {
+    options.beforeBuildStart = options.beforeBuildStart.split('&&');
+  }
   if (typeof options.onBuildStart === 'string') {
     options.onBuildStart = options.onBuildStart.split('&&');
   }
